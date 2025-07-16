@@ -21,30 +21,23 @@ const Index = () => {
         {/* Content overlay */}
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
           <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
-            Build Something
+            Hi, I'm
             <span className="block bg-gradient-primary bg-clip-text text-transparent">
-              Extraordinary
+              Hammemi Mariem
             </span>
           </h1>
           
           <p className="text-xl sm:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Transform your ideas into reality with our cutting-edge platform. 
-            Simple, powerful, and designed for creators who think big.
+            Welcome to my portfolio. Discover my creative work and innovative projects 
+            that showcase my passion for design and development.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex justify-center">
             <Button 
               size="lg" 
               className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg font-semibold shadow-elegant hover:shadow-glow transition-all duration-300 transform hover:scale-105"
             >
-              Get Started Today
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-4 text-lg font-semibold transition-all duration-300"
-            >
-              Learn More
+              View My Projects
             </Button>
           </div>
         </div>
