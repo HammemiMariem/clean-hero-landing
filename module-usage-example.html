@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>PricingCard Module Usage Example</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .demo-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .demo-title {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .demo-subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.2rem;
+      margin-bottom: 3rem;
+    }
+
+    .demo-section {
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      color: white;
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .demo-controls {
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    .demo-button {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 12px 24px;
+      margin: 0 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .demo-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .code-example {
+      background: rgba(0, 0, 0, 0.3);
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      backdrop-filter: blur(10px);
+    }
+
+    .cards-grid {
+      margin: 30px 0;
+    }
+
+    @media (max-width: 768px) {
+      .demo-title {
+        font-size: 2rem;
+      }
+      
+      .demo-button {
+        display: block;
+        margin: 8px auto;
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="demo-container">
+    <h1 class="demo-title">PricingCard Component</h1>
+    <p class="demo-subtitle">A flexible, reusable pricing card component for modern web applications</p>
+
+    <!-- Default Cards Section -->
+    <div class="demo-section">
+      <h2 class="section-title">Default Pricing Plans</h2>
+      <div id="defaultCards" class="cards-grid"></div>
+    </div>
+
+    <!-- Custom Cards Section -->
+    <div class="demo-section">
+      <h2 class="section-title">Custom Cards</h2>
+      <div class="demo-controls">
+        <button class="demo-button" onclick="createSingleCard()">Create Single Card</button>
+        <button class="demo-button" onclick="createCustomGrid()">Create Custom Grid</button>
+        <button class="demo-button" onclick="updateExistingCard()">Update Card</button>
+        <button class="demo-button" onclick="clearCustomCards()">Clear Cards</button>
+      </div>
+      <div id="customCards" class="cards-grid"></div>
+    </div>
+
+    <!-- Usage Examples -->
+    <div class="demo-section">
+      <h2 class="section-title">Usage Examples</h2>
+      
+      <h3 style="color: white; margin-top: 30px;">1. Import and Create a Single Card</h3>
+      <div class="code-example">
+import PricingCard from './PricingCard.js';
+
+const card = new PricingCard({
+  title: "Pro Plan",
+  price: "$29/month",
+  features: ["50 GB Storage", "Priority Support", "Advanced Features"],
+  buttonText: "Subscribe Now",
+  isPopular: true,
+  onButtonClick: (title, price) => {
+    console.log(`Selected: ${title} at ${price}`);
+  }
+});
+
+document.body.appendChild(card.render());
+      </div>
+
+      <h3 style="color: white; margin-top: 30px;">2. Create Multiple Cards</h3>
+      <div class="code-example">
+import PricingCard, { defaultPricingPlans } from './PricingCard.js';
+
+const container = document.getElementById('pricing-container');
+PricingCard.createCards(defaultPricingPlans, container);
+      </div>
+
+      <h3 style="color: white; margin-top: 30px;">3. Create Responsive Grid</h3>
+      <div class="code-example">
+import PricingCard, { createPricingGrid } from './PricingCard.js';
+
+const plans = [
+  {
+    title: "Basic",
+    price: "$9/month",
+    features: ["1 GB Storage", "Basic Support"],
+    buttonText: "Get Started",
+    buttonStyle: "primary"
+  }
+  // ... more plans
+];
+
+createPricingGrid(plans, document.body);
+      </div>
+
+      <h3 style="color: white; margin-top: 30px;">4. Custom Styling</h3>
+      <div class="code-example">
+const customCard = new PricingCard({
+  title: "Custom Plan",
+  price: "$49/month",
+  features: ["Custom Features", "Tailored Support"],
+  buttonText: "Contact Us",
+  buttonStyle: "success",
+  customStyles: {
+    card: {
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      color: 'white',
+      border: '2px solid gold'
+    },
+    button: {
+      background: 'gold',
+      color: 'black'
+    }
+  }
+});
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import PricingCard, { defaultPricingPlans, createPricingGrid } from './PricingCard.js';
+
+    // Initialize default cards
+    document.addEventListener('DOMContentLoaded', () => {
+      const defaultContainer = document.getElementById('defaultCards');
+      PricingCard.createCards(defaultPricingPlans, defaultContainer);
+    });
+
+    // Global functions for demo buttons
+    window.createSingleCard = () => {
+      const container = document.getElementById('customCards');
+      const card = new PricingCard({
+        title: "Custom Plan",
+        price: "$39/month",
+        features: [
+          "25 GB Storage",
+          "Custom Support",
+          "Tailored Features",
+          "Flexible Terms"
+        ],
+        buttonText: "Get Custom Plan",
+        buttonStyle: "success",
+        isPopular: false,
+        onButtonClick: (title, price) => {
+          alert(`Custom action: Selected ${title} for ${price}!`);
+        }
+      });
+      
+      container.appendChild(card.render());
+    };
+
+    window.createCustomGrid = () => {
+      const customPlans = [
+        {
+          title: "Freelancer",
+          price: "$15/month",
+          features: [
+            "5 GB Storage",
+            "Email Support",
+            "Basic Analytics",
+            "Mobile Access"
+          ],
+          buttonText: "Perfect for Solo",
+          buttonStyle: "secondary",
+          isPopular: false
+        },
+        {
+          title: "Team",
+          price: "$45/month",
+          features: [
+            "100 GB Storage",
+            "Team Collaboration",
+            "Advanced Analytics",
+            "Priority Support",
+            "Custom Integrations"
+          ],
+          buttonText: "Best for Teams",
+          buttonStyle: "primary",
+          isPopular: true
+        },
+        {
+          title: "Agency",
+          price: "$125/month",
+          features: [
+            "Unlimited Storage",
+            "White Label Solution",
+            "Client Management",
+            "Advanced Analytics",
+            "24/7 Phone Support",
+            "Custom Development"
+          ],
+          buttonText: "Scale Your Agency",
+          buttonStyle: "danger",
+          isPopular: false
+        }
+      ];
+
+      const container = document.getElementById('customCards');
+      container.innerHTML = ''; // Clear existing
+      PricingCard.createCards(customPlans, container);
+    };
+
+    window.updateExistingCard = () => {
+      const container = document.getElementById('customCards');
+      if (container.children.length === 0) {
+        alert('Create some cards first!');
+        return;
+      }
+
+      // This is a demo - in real usage you'd keep references to your card instances
+      alert('In a real application, you would keep references to card instances and call updateCard() method');
+    };
+
+    window.clearCustomCards = () => {
+      document.getElementById('customCards').innerHTML = '';
+    };
+  </script>
+</body>
+</html>
