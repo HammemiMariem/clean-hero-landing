@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pricing-card {
+  width: 300px;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: left;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.pricing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.card-price {
+  font-size: 20px;
+  color: #2c5aa0;
+  font-weight: bold;
+  margin: 0 0 20px 0;
+}
+
+.card-features {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 25px 0;
+}
+
+.card-features li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  color: #666;
+  position: relative;
+  padding-left: 20px;
+}
+
+.card-features li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #28a745;
+  font-weight: bold;
+}
+
+.card-features li:last-child {
+  border-bottom: none;
+}
+
+.card-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.card-btn:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.card-btn:active {
+  transform: translateY(0);
+}
+
+/* Color variants */
+.pricing-card.premium {
+  border: 2px solid #ffd700;
+  position: relative;
+}
+
+.pricing-card.premium:before {
+  content: "POPULAR";
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  background: #ffd700;
+  color: #333;
+  padding: 5px 15px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 15px;
+}
+
+.pricing-card.premium .card-price {
+  color: #ffd700;
+}
+</style>
+</head>
+<body>
+
+<div class="container" id="cardContainer">
+  <!-- Cards will be dynamically generated here -->
+</div>
+
+<script>
+class PricingCard {
+  constructor(title, price, features, buttonText = "Get Started", isPopular = false, buttonAction = null) {
+    this.title = title;
+    this.price = price;
+    this.features = features;
+    this.buttonText = buttonText;
+    this.isPopular = isPopular;
+    this.buttonAction = buttonAction || (() => console.log(`${buttonText} clicked for ${title}`));
+  }
+
+  render() {
+    const cardDiv = document.createElement('div');
+    cardDiv.className = `pricing-card ${this.isPopular ? 'premium' : ''}`;
+    
+    const featuresHTML = this.features.map(feature => `<li>${feature}</li>`).join('');
+    
+    cardDiv.innerHTML = `
+      <h2 class="card-title">${this.title}</h2>
+      <p class="card-price">${this.price}</p>
+      <ul class="card-features">
+        ${featuresHTML}
+      </ul>
+      <button class="card-btn">${this.buttonText}</button>
+    `;
+
+    // Add click event to button
+    const button = cardDiv.querySelector('.card-btn');
+    button.addEventListener('click', this.buttonAction);
+
+    return cardDiv;
+  }
+}
+
+// Function to create and display cards
+function createCards(cardData) {
+  const container = document.getElementById('cardContainer');
+  container.innerHTML = ''; // Clear existing cards
+
+  cardData.forEach(data => {
+    const card = new PricingCard(
+      data.title,
+      data.price,
+      data.features,
+      data.buttonText,
+      data.isPopular,
+      data.buttonAction
+    );
+    container.appendChild(card.render());
+  });
+}
+
+// Example card data
+const pricingPlans = [
+  {
+    title: "Basic Plan",
+    price: "$9.99 /month",
+    features: [
+      "1 GB Storage",
+      "Basic Support",
+      "All Core Features",
+      "Mobile App Access"
+    ],
+    buttonText: "Start Trial",
+    isPopular: false,
+    buttonAction: () => alert("Basic Plan selected!")
+  },
+  {
+    title: "Pro Plan",
+    price: "$19.99 /month",
+    features: [
+      "10 GB Storage",
+      "Priority Support",
+      "Advanced Features",
+      "Mobile App Access",
+      "Custom Integrations",
+      "Analytics Dashboard"
+    ],
+    buttonText: "Choose Pro",
+    isPopular: true,
+    buttonAction: () => alert("Pro Plan selected!")
+  },
+  {
+    title: "Enterprise",
+    price: "$49.99 /month",
+    features: [
+      "Unlimited Storage",
+      "24/7 Dedicated Support",
+      "All Features",
+      "Mobile App Access",
+      "Custom Integrations",
+      "Advanced Analytics",
+      "Team Management",
+      "API Access"
+    ],
+    buttonText: "Contact Sales",
+    isPopular: false,
+    buttonAction: () => alert("Enterprise Plan - Contact sales!")
+  }
+];
+
+// Initialize cards when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  createCards(pricingPlans);
+});
+
+// Example of how to add a new card dynamically
+function addCustomCard() {
+  const customCard = new PricingCard(
+    "Custom Plan",
+    "$29.99 /month",
+    ["Custom Storage", "Custom Support", "Custom Features"],
+    "Get Custom",
+    false,
+    () => alert("Custom plan clicked!")
+  );
+  
+  document.getElementById('cardContainer').appendChild(customCard.render());
+}
+
+// Expose functions globally for demo purposes
+window.PricingCard = PricingCard;
+window.createCards = createCards;
+window.addCustomCard = addCustomCard;
+</script>
+
+</body>
+</html>

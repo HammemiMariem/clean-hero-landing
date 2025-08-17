@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Card Component - Complete Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .test-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .test-section {
+            margin-bottom: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .pricing-card {
+            width: 320px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .pricing-card.popular {
+            border: 3px solid #ffd700;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.popular::before {
+            content: "MOST POPULAR";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .pricing-card.popular .card-header {
+            padding-top: 20px;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .card-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-price {
+            font-size: 42px;
+            font-weight: 800;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .card-period {
+            font-size: 16px;
+            color: #666;
+            font-weight: normal;
+        }
+
+        .card-features {
+            list-style: none;
+            margin-bottom: 35px;
+        }
+
+        .card-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+            position: relative;
+            padding-left: 30px;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .card-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .card-features li:last-child {
+            border-bottom: none;
+        }
+
+        .card-button {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: inherit;
+        }
+
+        .card-button.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .card-button.primary:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .card-button.secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .card-button.secondary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .card-button.success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .card-button.success:hover {
+            background: linear-gradient(135deg, #218838 0%, #1ea080 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+        }
+
+        .card-button.danger {
+            background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+            color: white;
+        }
+
+        .card-button.danger:hover {
+            background: linear-gradient(135deg, #c82333 0%, #d91a72 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(220, 53, 69, 0.4);
+        }
+
+        .controls {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .control-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            margin: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .control-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .status-message {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .pricing-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .control-button {
+                display: block;
+                margin: 8px auto;
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="header">
+            <h1>🎯 Pricing Card Component</h1>
+            <p>Complete Test Suite - Reusable & Customizable</p>
+        </div>
+
+        <!-- Default Plans Section -->
+        <div class="test-section">
+            <h2 class="section-title">📊 Default Pricing Plans</h2>
+            <div id="defaultPlans" class="cards-container"></div>
+        </div>
+
+        <!-- Interactive Tests Section -->
+        <div class="test-section">
+            <h2 class="section-title">🧪 Interactive Tests</h2>
+            <div class="controls">
+                <button class="control-button" onclick="testSingleCard()">Create Single Card</button>
+                <button class="control-button" onclick="testCustomStyles()">Custom Styled Card</button>
+                <button class="control-button" onclick="testDifferentButtons()">Different Button Styles</button>
+                <button class="control-button" onclick="testAnnualPlans()">Switch to Annual</button>
+                <button class="control-button" onclick="testMonthlyPlans()">Switch to Monthly</button>
+                <button class="control-button" onclick="clearTestCards()">Clear Test Cards</button>
+            </div>
+            <div id="statusMessage" class="status-message" style="display: none;"></div>
+            <div id="testCards" class="cards-container"></div>
+        </div>
+
+        <!-- Feature Showcase Section -->
+        <div class="test-section">
+            <h2 class="section-title">✨ Feature Showcase</h2>
+            <div id="showcaseCards" class="cards-container"></div>
+        </div>
+    </div>
+
+    <script>
+        // PricingCard Class
+        class PricingCard {
+            constructor({
+                title,
+                price,
+                period = "",
+                features = [],
+                buttonText = "Get Started",
+                buttonStyle = "primary",
+                isPopular = false,
+                onButtonClick = null,
+                customStyles = {}
+            }) {
+                this.title = title;
+                this.price = price;
+                this.period = period;
+                this.features = features;
+                this.buttonText = buttonText;
+                this.buttonStyle = buttonStyle;
+                this.isPopular = isPopular;
+                this.onButtonClick = onButtonClick || this.defaultClickHandler;
+                this.customStyles = customStyles;
+            }
+
+            defaultClickHandler = () => {
+                this.showMessage(`Selected: ${this.title} for ${this.price}${this.period}`, 'success');
+            }
+
+            showMessage(text, type = 'info') {
+                const messageEl = document.getElementById('statusMessage');
+                messageEl.textContent = text;
+                messageEl.style.display = 'block';
+                messageEl.style.background = type === 'success' 
+                    ? 'rgba(40, 167, 69, 0.3)' 
+                    : 'rgba(255, 255, 255, 0.1)';
+                
+                setTimeout(() => {
+                    messageEl.style.display = 'none';
+                }, 3000);
+            }
+
+            render() {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = `pricing-card ${this.isPopular ? 'popular' : ''}`;
+                
+                if (this.customStyles.card) {
+                    Object.assign(cardDiv.style, this.customStyles.card);
+                }
+
+                const featuresHTML = this.features.map(feature => `<li>${feature}</li>`).join('');
+                
+                cardDiv.innerHTML = `
+                    <div class="card-header">
+                        <h3 class="card-title">${this.title}</h3>
+                        <div class="card-price">
+                            ${this.price}
+                            ${this.period ? `<span class="card-period">${this.period}</span>` : ''}
+                        </div>
+                    </div>
+                    
+                    <ul class="card-features">
+                        ${featuresHTML}
+                    </ul>
+                    
+                    <button class="card-button ${this.buttonStyle}">
+                        ${this.buttonText}
+                    </button>
+                `;
+
+                const button = cardDiv.querySelector('.card-button');
+                button.addEventListener('click', () => this.onButtonClick(this.title, this.price));
+
+                if (this.customStyles.button) {
+                    Object.assign(button.style, this.customStyles.button);
+                }
+
+                return cardDiv;
+            }
+
+            static createCards(cardsData, container) {
+                if (!container) return;
+                
+                container.innerHTML = '';
+                cardsData.forEach(cardData => {
+                    const card = new PricingCard(cardData);
+                    container.appendChild(card.render());
+                });
+            }
+        }
+
+        // Default Plans Data
+        const defaultPlans = [
+            {
+                title: "Starter",
+                price: "$9",
+                period: "/month",
+                features: [
+                    "1 GB Storage",
+                    "Basic Email Support",
+                    "Core Features",
+                    "Mobile App Access",
+                    "Basic Analytics"
+                ],
+                buttonText: "Start Free Trial",
+                buttonStyle: "secondary",
+                isPopular: false
+            },
+            {
+                title: "Professional",
+                price: "$29",
+                period: "/month",
+                features: [
+                    "50 GB Storage",
+                    "Priority Support",
+                    "Advanced Features",
+                    "Mobile App Access",
+                    "Custom Integrations",
+                    "Advanced Analytics",
+                    "Team Collaboration",
+                    "API Access"
+                ],
+                buttonText: "Choose Pro",
+                buttonStyle: "primary",
+                isPopular: true
+            },
+            {
+                title: "Enterprise",
+                price: "$99",
+                period: "/month",
+                features: [
+                    "Unlimited Storage",
+                    "24/7 Dedicated Support",
+                    "All Features",
+                    "Mobile App Access",
+                    "Custom Integrations",
+                    "Advanced Analytics",
+                    "Team Management",
+                    "API Access",
+                    "Custom Branding",
+                    "SLA Guarantee"
+                ],
+                buttonText: "Contact Sales",
+                buttonStyle: "secondary",
+                isPopular: false
+            }
+        ];
+
+        const annualPlans = [
+            {
+                title: "Starter",
+                price: "$90",
+                period: "/year",
+                features: [
+                    "1 GB Storage",
+                    "Basic Email Support", 
+                    "Core Features",
+                    "Mobile App Access",
+                    "Basic Analytics",
+                    "💰 Save 2 months!"
+                ],
+                buttonText: "Start Annual",
+                buttonStyle: "success",
+                isPopular: false
+            },
+            {
+                title: "Professional",
+                price: "$290",
+                period: "/year",
+                features: [
+                    "50 GB Storage",
+                    "Priority Support",
+                    "Advanced Features",
+                    "Mobile App Access",
+                    "Custom Integrations",
+                    "Advanced Analytics",
+                    "Team Collaboration",
+                    "API Access",
+                    "💰 Save 2 months!"
+                ],
+                buttonText: "Choose Annual Pro",
+                buttonStyle: "primary",
+                isPopular: true
+            },
+            {
+                title: "Enterprise",
+                price: "$990",
+                period: "/year",
+                features: [
+                    "Unlimited Storage",
+                    "24/7 Dedicated Support",
+                    "All Features",
+                    "Mobile App Access",
+                    "Custom Integrations",
+                    "Advanced Analytics",
+                    "Team Management",
+                    "API Access",
+                    "Custom Branding",
+                    "SLA Guarantee",
+                    "💰 Save 2 months!"
+                ],
+                buttonText: "Contact Sales",
+                buttonStyle: "success",
+                isPopular: false
+            }
+        ];
+
+        // Test Functions
+        function testSingleCard() {
+            const container = document.getElementById('testCards');
+            const card = new PricingCard({
+                title: "Custom Plan",
+                price: "$49",
+                period: "/month",
+                features: [
+                    "25 GB Storage",
+                    "Custom Support Level",
+                    "Tailored Features",
+                    "Flexible Billing",
+                    "Dedicated Account Manager"
+                ],
+                buttonText: "Get Custom Quote",
+                buttonStyle: "success",
+                isPopular: false,
+                onButtonClick: () => showMessage("Custom plan button clicked! 🎉", 'success')
+            });
+            
+            container.appendChild(card.render());
+            showMessage("Single custom card created!", 'success');
+        }
+
+        function testCustomStyles() {
+            const container = document.getElementById('testCards');
+            const card = new PricingCard({
+                title: "Premium Plus",
+                price: "$199",
+                period: "/month",
+                features: [
+                    "Everything Included",
+                    "White Glove Service",
+                    "Custom Development",
+                    "Dedicated Infrastructure"
+                ],
+                buttonText: "Go Premium",
+                buttonStyle: "danger",
+                isPopular: true,
+                customStyles: {
+                    card: {
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white',
+                        border: '3px solid gold'
+                    },
+                    button: {
+                        background: 'gold',
+                        color: 'black',
+                        fontWeight: 'bold'
+                    }
+                },
+                onButtonClick: () => showMessage("Premium Plus with custom styling selected! ✨", 'success')
+            });
+            
+            container.appendChild(card.render());
+            showMessage("Custom styled card created!", 'success');
+        }
+
+        function testDifferentButtons() {
+            const container = document.getElementById('testCards');
+            const buttonStyles = [
+                { style: 'primary', title: 'Primary Button', price: '$19' },
+                { style: 'secondary', title: 'Secondary Button', price: '$29' },
+                { style: 'success', title: 'Success Button', price: '$39' },
+                { style: 'danger', title: 'Danger Button', price: '$49' }
+            ];
+
+            buttonStyles.forEach(({ style, title, price }) => {
+                const card = new PricingCard({
+                    title: title,
+                    price: price,
+                    period: "/month",
+                    features: [
+                        `${style.charAt(0).toUpperCase() + style.slice(1)} Features`,
+                        "Button Style Demo",
+                        "Interactive Testing"
+                    ],
+                    buttonText: `${style.charAt(0).toUpperCase() + style.slice(1)} Action`,
+                    buttonStyle: style,
+                    onButtonClick: () => showMessage(`${style} button clicked! 🎨`, 'success')
+                });
+                container.appendChild(card.render());
+            });
+
+            showMessage("Different button styles created!", 'success');
+        }
+
+        function testAnnualPlans() {
+            const container = document.getElementById('defaultPlans');
+            PricingCard.createCards(annualPlans, container);
+            showMessage("Switched to annual plans! 📅", 'success');
+        }
+
+        function testMonthlyPlans() {
+            const container = document.getElementById('defaultPlans');
+            PricingCard.createCards(defaultPlans, container);
+            showMessage("Switched to monthly plans! 📅", 'success');
+        }
+
+        function clearTestCards() {
+            document.getElementById('testCards').innerHTML = '';
+            showMessage("Test cards cleared! 🧹", 'success');
+        }
+
+        function showMessage(text, type = 'info') {
+            const messageEl = document.getElementById('statusMessage');
+            messageEl.textContent = text;
+            messageEl.style.display = 'block';
+            messageEl.style.background = type === 'success' 
+                ? 'rgba(40, 167, 69, 0.3)' 
+                : 'rgba(255, 255, 255, 0.1)';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load default plans
+            PricingCard.createCards(defaultPlans, document.getElementById('defaultPlans'));
+
+            // Create showcase cards
+            const showcaseCards = [
+                {
+                    title: "Freelancer",
+                    price: "$15",
+                    period: "/month",
+                    features: ["Perfect for individuals", "5 GB Storage", "Email Support"],
+                    buttonText: "Perfect for Solo",
+                    buttonStyle: "secondary"
+                },
+                {
+                    title: "Agency",
+                    price: "$199",
+                    period: "/month", 
+                    features: ["Scale your business", "Unlimited everything", "White-label solution"],
+                    buttonText: "Scale Now",
+                    buttonStyle: "danger",
+                    isPopular: true
+                }
+            ];
+
+            PricingCard.createCards(showcaseCards, document.getElementById('showcaseCards'));
+            
+            showMessage("Pricing Card Component loaded successfully! 🚀", 'success');
+        });
+    </script>
+</body>
+</html>

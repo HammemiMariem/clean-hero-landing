@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>React Pricing Card Component</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .app-title {
+      text-align: center;
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .cards-container {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pricing-card {
+      width: 320px;
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+    }
+
+    .pricing-card.popular {
+      border: 3px solid #ffd700;
+      transform: scale(1.05);
+    }
+
+    .pricing-card.popular::before {
+      content: "MOST POPULAR";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #ffd700, #ffed4e);
+      color: #333;
+      text-align: center;
+      padding: 8px;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .pricing-card.popular {
+      margin-top: 40px;
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-top: 20px;
+    }
+
+    .card-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #333;
+      margin: 0 0 8px 0;
+    }
+
+    .card-price {
+      font-size: 36px;
+      font-weight: 800;
+      color: #667eea;
+      margin: 0;
+    }
+
+    .card-price-period {
+      font-size: 16px;
+      color: #666;
+      font-weight: normal;
+    }
+
+    .card-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 32px 0;
+    }
+
+    .card-features li {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+      color: #555;
+      position: relative;
+      padding-left: 28px;
+      font-size: 14px;
+    }
+
+    .card-features li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 12px;
+      color: #28a745;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .card-features li:last-child {
+      border-bottom: none;
+    }
+
+    .card-button {
+      width: 100%;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-button.primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .card-button.primary:hover {
+      background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .card-button.secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+
+    .card-button.secondary:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .demo-controls {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .demo-button {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      padding: 12px 24px;
+      margin: 0 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .demo-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Reusable Card Component
+    const PricingCard = ({ 
+      title, 
+      price, 
+      period = "/month", 
+      features, 
+      buttonText = "Get Started", 
+      buttonStyle = "primary",
+      isPopular = false, 
+      onButtonClick 
+    }) => {
+      const handleClick = () => {
+        if (onButtonClick) {
+          onButtonClick(title, price);
+        } else {
+          alert(`${buttonText} clicked for ${title}!`);
+        }
+      };
+
+      return (
+        <div className={`pricing-card ${isPopular ? 'popular' : ''}`}>
+          <div className="card-header">
+            <h3 className="card-title">{title}</h3>
+            <div className="card-price">
+              {price}
+              <span className="card-price-period">{period}</span>
+            </div>
+          </div>
+          
+          <ul className="card-features">
+            {features.map((feature, index) => (
+              <li key={index}>{feature}</li>
+            ))}
+          </ul>
+          
+          <button 
+            className={`card-button ${buttonStyle}`}
+            onClick={handleClick}
+          >
+            {buttonText}
+          </button>
+        </div>
+      );
+    };
+
+    // Main App Component
+    const App = () => {
+      const [cardData, setCardData] = useState([]);
+
+      // Default pricing plans
+      const defaultPlans = [
+        {
+          title: "Starter",
+          price: "$9",
+          period: "/month",
+          features: [
+            "1 GB Storage",
+            "Basic Support",
+            "Core Features",
+            "Mobile App Access",
+            "Email Integration"
+          ],
+          buttonText: "Start Free Trial",
+          buttonStyle: "secondary",
+          isPopular: false
+        },
+        {
+          title: "Professional",
+          price: "$29",
+          period: "/month",
+          features: [
+            "50 GB Storage",
+            "Priority Support",
+            "Advanced Features",
+            "Mobile App Access",
+            "Custom Integrations",
+            "Analytics Dashboard",
+            "Team Collaboration",
+            "API Access"
+          ],
+          buttonText: "Choose Pro",
+          buttonStyle: "primary",
+          isPopular: true
+        },
+        {
+          title: "Enterprise",
+          price: "$99",
+          period: "/month",
+          features: [
+            "Unlimited Storage",
+            "24/7 Dedicated Support",
+            "All Features",
+            "Mobile App Access",
+            "Custom Integrations",
+            "Advanced Analytics",
+            "Team Management",
+            "API Access",
+            "Custom Branding",
+            "SLA Guarantee"
+          ],
+          buttonText: "Contact Sales",
+          buttonStyle: "secondary",
+          isPopular: false
+        }
+      ];
+
+      const annualPlans = [
+        {
+          title: "Starter",
+          price: "$90",
+          period: "/year",
+          features: [
+            "1 GB Storage",
+            "Basic Support",
+            "Core Features",
+            "Mobile App Access",
+            "Email Integration",
+            "2 months FREE!"
+          ],
+          buttonText: "Start Annual",
+          buttonStyle: "secondary",
+          isPopular: false
+        },
+        {
+          title: "Professional",
+          price: "$290",
+          period: "/year",
+          features: [
+            "50 GB Storage",
+            "Priority Support",
+            "Advanced Features",
+            "Mobile App Access",
+            "Custom Integrations",
+            "Analytics Dashboard",
+            "Team Collaboration",
+            "API Access",
+            "2 months FREE!"
+          ],
+          buttonText: "Choose Annual Pro",
+          buttonStyle: "primary",
+          isPopular: true
+        },
+        {
+          title: "Enterprise",
+          price: "$990",
+          period: "/year",
+          features: [
+            "Unlimited Storage",
+            "24/7 Dedicated Support",
+            "All Features",
+            "Mobile App Access",
+            "Custom Integrations",
+            "Advanced Analytics",
+            "Team Management",
+            "API Access",
+            "Custom Branding",
+            "SLA Guarantee",
+            "2 months FREE!"
+          ],
+          buttonText: "Contact Sales",
+          buttonStyle: "secondary",
+          isPopular: false
+        }
+      ];
+
+      useEffect(() => {
+        setCardData(defaultPlans);
+      }, []);
+
+      const handleCardClick = (title, price) => {
+        console.log(`Selected: ${title} at ${price}`);
+        alert(`You selected: ${title} for ${price}!`);
+      };
+
+      const showMonthlyPlans = () => setCardData(defaultPlans);
+      const showAnnualPlans = () => setCardData(annualPlans);
+
+      const addCustomCard = () => {
+        const customCard = {
+          title: "Custom Plan",
+          price: "$49",
+          period: "/month",
+          features: [
+            "Custom Storage",
+            "Custom Support Level",
+            "Tailored Features",
+            "Flexible Billing",
+            "Dedicated Account Manager"
+          ],
+          buttonText: "Get Custom Quote",
+          buttonStyle: "primary",
+          isPopular: false
+        };
+        setCardData([...cardData, customCard]);
+      };
+
+      return (
+        <div className="app-container">
+          <h1 className="app-title">Pricing Plans</h1>
+          
+          <div className="cards-container">
+            {cardData.map((plan, index) => (
+              <PricingCard
+                key={`${plan.title}-${index}`}
+                title={plan.title}
+                price={plan.price}
+                period={plan.period}
+                features={plan.features}
+                buttonText={plan.buttonText}
+                buttonStyle={plan.buttonStyle}
+                isPopular={plan.isPopular}
+                onButtonClick={handleCardClick}
+              />
+            ))}
+          </div>
+
+          <div className="demo-controls">
+            <button className="demo-button" onClick={showMonthlyPlans}>
+              Monthly Plans
+            </button>
+            <button className="demo-button" onClick={showAnnualPlans}>
+              Annual Plans
+            </button>
+            <button className="demo-button" onClick={addCustomCard}>
+              Add Custom Card
+            </button>
+          </div>
+        </div>
+      );
+    };
+
+    // Render the App
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>
