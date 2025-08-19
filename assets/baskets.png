@@ -1,0 +1,7 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+  <circle cx="150" cy="80" r="40" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+  <rect x="120" y="80" width="60" height="40" fill="#D2691E" stroke="#8B4513" stroke-width="2"/>
+  <path d="M130 80 Q150 60 170 80" fill="none" stroke="#8B4513" stroke-width="3"/>
+  <text x="150" y="160" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#333">Basket</text>
+</svg>

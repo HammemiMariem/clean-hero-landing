@@ -1,0 +1,8 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+  <ellipse cx="120" cy="100" rx="25" ry="50" fill="#4169E1" stroke="#1E3A8A" stroke-width="2"/>
+  <ellipse cx="180" cy="100" rx="25" ry="50" fill="#4169E1" stroke="#1E3A8A" stroke-width="2"/>
+  <rect x="95" y="130" width="50" height="20" fill="#4169E1" stroke="#1E3A8A" stroke-width="2"/>
+  <rect x="155" y="130" width="50" height="20" fill="#4169E1" stroke="#1E3A8A" stroke-width="2"/>
+  <text x="150" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#333">Socks</text>
+</svg>
