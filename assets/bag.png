@@ -1,0 +1,8 @@
+<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="200" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+  <rect x="80" y="80" width="140" height="80" fill="#8B4513" stroke="#654321" stroke-width="2"/>
+  <path d="M110 80 Q110 60 130 60 Q150 60 170 60 Q190 60 190 80" fill="none" stroke="#654321" stroke-width="3"/>
+  <circle cx="120" cy="90" r="3" fill="#654321"/>
+  <circle cx="180" cy="90" r="3" fill="#654321"/>
+  <text x="150" y="180" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#333">Bag</text>
+</svg>
